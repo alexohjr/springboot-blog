@@ -5,8 +5,10 @@ import com.och.vueblog.web.dto.PostsResponseDto;
 import com.och.vueblog.web.dto.PostsSaveRequestDto;
 import com.och.vueblog.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class PostsApiController {

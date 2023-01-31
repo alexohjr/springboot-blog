@@ -1,10 +1,7 @@
 package com.och.vueblog.domain.posts;
 
 import com.och.vueblog.domain.BaseTimeEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 

@@ -1,36 +1,104 @@
+buildscript { // 이놈
+	ext {
+		queryDslVersion = "5.0.0"
+	}
+}
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.6.7'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 group = 'com.och'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
 repositories {
 	mavenCentral()
 }
 
+//dependencies {
+//	implementation 'org.springframework.boot:spring-boot-starter'
+//	implementation 'org.springframework.boot:spring-boot-starter-web'
+//	implementation 'org.projectlombok:lombok'
+//	runtimeOnly 'com.h2database:h2'
+//
+//	annotationProcessor 'org.projectlombok:lombok'
+//
+//	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+//	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.32'
+//
+//	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+//	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+//
+//	implementation 'org.springframework.boot:spring-boot-starter-mustache'
+//
+//	// querydsl 이놈
+//	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+//	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+//	implementation "com.querydsl:querydsl-core:${queryDslVersion}"
+//
+//	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//	testImplementation 'junit:junit:4.13.1'
+//
+//	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+//	testAnnotationProcessor('org.projectlombok:lombok')
+//
+//}
+
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
-	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.32'
-
-
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'mysql:mysql-connector-java' // mysql 연동
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
-	testImplementation 'junit:junit:4.13.1'
-
 	implementation 'org.springframework.boot:spring-boot-starter-mustache'
+
+	// querydsl 이놈
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+	implementation "com.querydsl:querydsl-core:${queryDslVersion}"
+
+//	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+	annotationProcessor 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
 
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl { //이놈
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+
+sourceSets { //이놈
+	main.java.srcDir querydslDir
+}
+
+configurations { // 이놈
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl { // 이놈
+	options.annotationProcessorPath = configurations.querydsl
 }

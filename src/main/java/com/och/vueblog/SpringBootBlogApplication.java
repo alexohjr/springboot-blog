@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
 @SpringBootApplication
-public class VueBlogApplication {
+public class SpringBootBlogApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(VueBlogApplication.class, args);
+		SpringApplication.run(SpringBootBlogApplication.class, args);
 	}
 
 }
